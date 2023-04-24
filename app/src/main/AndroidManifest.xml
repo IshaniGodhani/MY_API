@@ -14,18 +14,22 @@
         android:theme="@style/Theme.MY_API"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.HomePage_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Login_activity"
-            android:exported="true" >
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activity.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SplashScreen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".Activity.MainActivity"
-            android:exported="true">
-
         </activity>
     </application>
 
