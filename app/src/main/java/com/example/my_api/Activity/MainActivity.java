@@ -36,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
         register=findViewById(R.id.register);
-        rlogin=findViewById(R.id.rlogin);
+//        rlogin=findViewById(R.id.rlogin);
 
-        rlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,Login_activity.class);
-                startActivity(intent);
-            }
-        });
+//        rlogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent=new Intent(MainActivity.this,Login_activity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,24 +61,41 @@ public class MainActivity extends AppCompatActivity {
         Name=name.getText().toString();
         Email=email.getText().toString();
         Password=password.getText().toString();
-        Retro_Instance_Class.MyAPICalling().UserRegister(Name,Email,Password).enqueue(new Callback<RegisterData>() {
-            @Override
-            public void onResponse(Call<RegisterData> call, Response<RegisterData> response) {
-                if (response.body().getConnection() == 1) {
-                    if (response.body().getResult() == 1) {
-                        Toast.makeText(MainActivity.this, "User Registered", Toast.LENGTH_SHORT).show();
-                    } else if (response.body().getResult() == 2) {
-                        Toast.makeText(MainActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
+        if (name.getText().toString().equals("") && email.getText().toString().equals("") && password.getText().toString().equals(""))
+        {
+            name.setError("Enter name");
+            email.setError("Enter email");
+            password.setError("Enter password");
+        } else if (name.getText().toString().equals("")) {
+            name.setError("Enter name");
+        } else if ( email.getText().toString().equals("")) {
+            email.setError("Enter email");
+        } else if (password.getText().toString().equals("")) {
+            password.setError("Enter password");
+        }
+        else
+        {
+            Retro_Instance_Class.MyAPICalling().UserRegister(Name,Email,Password).enqueue(new Callback<RegisterData>() {
+                @Override
+                public void onResponse(Call<RegisterData> call, Response<RegisterData> response) {
+                    if (response.body().getConnection() == 1) {
+                        if (response.body().getResult() == 1) {
+                            Toast.makeText(MainActivity.this, "User Registered", Toast.LENGTH_SHORT).show();
+                        } else if (response.body().getResult() == 2) {
+                            Toast.makeText(MainActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
                 }
-            }
 
-            @Override
-            public void onFailure(Call<RegisterData> call, Throwable t) {
+                @Override
+                public void onFailure(Call<RegisterData> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 }

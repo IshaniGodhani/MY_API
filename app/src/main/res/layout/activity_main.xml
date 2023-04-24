@@ -59,24 +59,24 @@
                 android:hint="password"
                 android:textAlignment="center"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alredy have an account?"
-                android:layout_marginTop="270dp"
-                android:textSize="16dp"
-                android:textColor="@color/black"
-                android:layout_marginStart="50dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Log In"
-                android:layout_marginTop="270dp"
-                android:textSize="16dp"
-                android:id="@+id/rlogin"
-                android:textColor="@color/purple_700"
-                android:textStyle="bold"
-                android:layout_marginStart="230dp"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Alredy have an account?"-->
+<!--                android:layout_marginTop="270dp"-->
+<!--                android:textSize="16dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_marginStart="50dp"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Log In"-->
+<!--                android:layout_marginTop="270dp"-->
+<!--                android:textSize="16dp"-->
+<!--                android:id="@+id/rlogin"-->
+<!--                android:textColor="@color/purple_700"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_marginStart="230dp"/>-->
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
