@@ -10,9 +10,9 @@
         />
 
     <item
-        android:title="View all product"
-        android:id="@+id/all_view"
-        android:icon="@drawable/baseline_view_compact_24"/>
+        android:title="All product"
+        android:id="@+id/all_product"
+        android:icon="@drawable/baseline_all_out_24"/>
     <item
         android:title="Log out"
         android:id="@+id/log_out"

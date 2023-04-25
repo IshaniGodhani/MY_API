@@ -62,6 +62,8 @@ public class Login_activity extends AppCompatActivity {
                 if(response.body().getConnection()==1&& response.body().getResult()==1)
                 {
                     editor.putBoolean("LoginStatus", Boolean.parseBoolean("true"));
+                    editor.putString("name",response.body().getUserdata().getName());
+                    editor.putString("email",response.body().getUserdata().getEmail());
                     editor.commit();
                     Toast.makeText(Login_activity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Login_activity.this,HomePage_Activity.class);
