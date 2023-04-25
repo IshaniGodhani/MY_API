@@ -27,6 +27,7 @@ public class Login_activity extends AppCompatActivity {
     TextView fp;
     Button login,sign;
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
