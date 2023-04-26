@@ -27,6 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/list_proname"
+            android:layout_marginBottom="-15dp"
+            android:text="some"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/list_prodes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/list_proprice"
             android:layout_marginBottom="-20dp"
             android:text="some"
             android:textSize="20dp" />
@@ -37,7 +45,7 @@
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:background="@drawable/baseline_menu_24" />
 
 
     </RelativeLayout>

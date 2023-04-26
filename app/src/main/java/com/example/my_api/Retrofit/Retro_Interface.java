@@ -1,6 +1,7 @@
 package com.example.my_api.Retrofit;
 
 import com.example.my_api.Models.LogingData;
+import com.example.my_api.Models.ProductData;
 import com.example.my_api.Models.RegisterData;
 
 import retrofit2.Call;
@@ -16,4 +17,8 @@ public interface Retro_Interface
     @FormUrlEncoded
     @POST("Login.php")
     Call<LogingData> UserLogin(@Field("email") String email, @Field("password")String password);
+
+    @FormUrlEncoded
+    @POST("addProduct.php")
+    Call<ProductData> addproduct(@Field("pname") String productName ,@Field("pprize") String productPrice,@Field("pdes") String productDes,@Field("productimage") String productImage);
 }

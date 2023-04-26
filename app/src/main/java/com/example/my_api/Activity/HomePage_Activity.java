@@ -41,6 +41,7 @@ public class HomePage_Activity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawerLayout);
+
         View view=navigationView.getHeaderView(0);
         txt1=view.findViewById(R.id.txt1);
         txt2=view.findViewById(R.id.txt2);
