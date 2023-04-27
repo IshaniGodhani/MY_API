@@ -44,6 +44,7 @@
             android:gravity="center"
             android:layout_marginTop="30dp"
             android:id="@+id/pro_Image"
+            android:scaleType="centerCrop"
             android:background="#66B2EF"
             android:src="@drawable/baseline_image_24" />
 
