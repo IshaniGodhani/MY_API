@@ -3,11 +3,15 @@ package com.example.my_api.Fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,6 +25,12 @@ import com.example.my_api.Activity.SplashScreen;
 import com.example.my_api.Models.ProductData;
 import com.example.my_api.R;
 import com.example.my_api.Retrofit.Retro_Instance_Class;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +47,9 @@ public class Add_Product extends Fragment {
     String per[]={Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.INTERNET};
 
 
+
+
+    @SuppressLint("WrongThread")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,9 +66,14 @@ public class Add_Product extends Fragment {
              public void onClick(View view) {
                  CropImage.activity()
                          .setGuidelines(CropImageView.Guidelines.ON)
-                         .start(Add_Product.this);
+                         .start(Add_Product.this.getActivity());
              }
          });
+        Bitmap bitmap=((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,20,baos);
+        byte[] imageInByte=baos.toByteArray();
+        String imagedata= Base64.getEncoder().encodeToString(imageInByte);
 
          userid= SplashScreen.preferences.getString("userid","");
 
@@ -67,11 +85,23 @@ public class Add_Product extends Fragment {
          });
 
 
+
         return view;
     }
 
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imageView.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+    }
 
     private void addproduct()
     {
