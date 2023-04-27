@@ -1,5 +1,4 @@
 package com.example.my_api.Fragment;
-
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
@@ -20,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.my_api.Activity.Login_activity;
 import com.example.my_api.Activity.SplashScreen;
 import com.example.my_api.Models.ProductData;
 import com.example.my_api.R;
@@ -42,9 +43,8 @@ public class Add_Product extends Fragment {
     ImageView imageView;
     Button addpro;
     String userid;
-    String proname,proprice,prodes,proimage;
+    String proname,proprice,prodes,imagedata;
 
-    String per[]={Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.INTERNET};
 
 
 
@@ -61,31 +61,14 @@ public class Add_Product extends Fragment {
          imageView=view.findViewById(R.id.pro_Image);
          addpro=view.findViewById(R.id.btnadd_pro);
 
-         imageView.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 CropImage.activity()
-                         .setGuidelines(CropImageView.Guidelines.ON)
-                         .start(Add_Product.this.getActivity());
-             }
-         });
-        Bitmap bitmap=((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,20,baos);
-        byte[] imageInByte=baos.toByteArray();
-        String imagedata= Base64.getEncoder().encodeToString(imageInByte);
-
-         userid= SplashScreen.preferences.getString("userid","");
-
-         addpro.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                addproduct();
-             }
-         });
+         imageView.setOnClickListener(view1 -> CropImage.activity()
+                 .setGuidelines(CropImageView.Guidelines.ON)
+                 .start(Add_Product.this.getActivity()));
 
 
 
+
+         addpro.setOnClickListener(view12 -> addproduct());
         return view;
     }
 
@@ -103,22 +86,49 @@ public class Add_Product extends Fragment {
         }
     }
 
-    private void addproduct()
-    {
-        proname=et1.getText().toString();
-        proprice=et2.getText().toString();
-        prodes=et3.getText().toString();
+    private void addproduct() {
 
-//        Retro_Instance_Class.MyAPICalling().addproduct(proname,proprice,prodes).enqueue(new Callback<ProductData>() {
-//            @Override
-//            public void onResponse(Call<ProductData> call, Response<ProductData> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductData> call, Throwable t) {
-//
-//            }
-//        });
+        proname = et1.getText().toString();
+        proprice = et2.getText().toString();
+        prodes = et3.getText().toString();
+        try {
+
+
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            byte[] imageInByte = baos.toByteArray();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                imagedata = Base64.getEncoder().encodeToString(imageInByte);
+            }
+
+            Retro_Instance_Class.MyAPICalling().addproduct(proname, proprice, prodes, imagedata).enqueue(new Callback<ProductData>() {
+                @Override
+                public void onResponse(Call<ProductData> call, Response<ProductData> response) {
+                    if (response.body().getConnection() == 1 && response.body().getProductaddd() == 1) {
+                        userid = SplashScreen.preferences.getString("userid", "");
+                        Toast.makeText(Add_Product.this.getActivity(), "Product Add Successfully", Toast.LENGTH_SHORT).show();
+                    } else if (response.body().getProductaddd() == 0) {
+                        Toast.makeText(Add_Product.this.getActivity(), "Product not Added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Add_Product.this.getActivity(), "Something wnt wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ProductData> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (NullPointerException exception)
+        {
+            Toast.makeText(getActivity(), "Please add any image to proceed", Toast.LENGTH_SHORT).show();
+        }
+        catch (ClassCastException exception)
+        {
+            Toast.makeText(getActivity(), "Please add any image to proceed", Toast.LENGTH_SHORT).show();
+        }
     }
 }
