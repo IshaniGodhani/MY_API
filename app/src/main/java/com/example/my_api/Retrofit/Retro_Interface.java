@@ -3,6 +3,9 @@ package com.example.my_api.Retrofit;
 import com.example.my_api.Models.LogingData;
 import com.example.my_api.Models.ProductData;
 import com.example.my_api.Models.RegisterData;
+import com.example.my_api.Models.ViewProductData;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -20,5 +23,9 @@ public interface Retro_Interface
 
     @FormUrlEncoded
     @POST("addProduct.php")
-    Call<ProductData> addproduct(@Field("pname") String productName ,@Field("pprize") String productPrice,@Field("pdes") String productDes,@Field("productimage") String productImage);
+    Call<ProductData> addproduct(@Field("userid")String userId,@Field("pname") String productName ,@Field("pprize") String productPrice,@Field("pdes") String productDes,@Field("productimage") String productImage);
+
+    @FormUrlEncoded
+    @POST("viewData.php")
+    Call<ViewProductData> viewProduct(@Field("userid")String userId);
 }

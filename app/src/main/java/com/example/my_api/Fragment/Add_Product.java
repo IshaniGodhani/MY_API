@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,14 +62,23 @@ public class Add_Product extends Fragment {
          imageView=view.findViewById(R.id.pro_Image);
          addpro=view.findViewById(R.id.btnadd_pro);
 
-         imageView.setOnClickListener(view1 -> CropImage.activity()
-                 .setGuidelines(CropImageView.Guidelines.ON)
-                 .start(Add_Product.this.getActivity()));
+         imageView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 CropImage.activity()
+                         .start(getContext(), Add_Product.this);
+             }
+         });
 
+        addpro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("aaa", "onClick: "+"Cliked");
+                addproduct();
 
+            }
+        });
 
-
-         addpro.setOnClickListener(view12 -> addproduct());
         return view;
     }
 
@@ -87,11 +97,10 @@ public class Add_Product extends Fragment {
     }
 
     private void addproduct() {
-
+        userid = SplashScreen.preferences.getString("userid", "");
         proname = et1.getText().toString();
         proprice = et2.getText().toString();
         prodes = et3.getText().toString();
-        try {
 
 
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -102,33 +111,29 @@ public class Add_Product extends Fragment {
                 imagedata = Base64.getEncoder().encodeToString(imageInByte);
             }
 
-            Retro_Instance_Class.MyAPICalling().addproduct(proname, proprice, prodes, imagedata).enqueue(new Callback<ProductData>() {
+            Retro_Instance_Class.MyAPICalling().addproduct(userid,proname, proprice, prodes, imagedata).enqueue(new Callback<ProductData>() {
                 @Override
                 public void onResponse(Call<ProductData> call, Response<ProductData> response) {
+                    Log.d("aaa", "onResponse: "+response.body());
                     if (response.body().getConnection() == 1 && response.body().getProductaddd() == 1) {
-                        userid = SplashScreen.preferences.getString("userid", "");
+
                         Toast.makeText(Add_Product.this.getActivity(), "Product Add Successfully", Toast.LENGTH_SHORT).show();
                     } else if (response.body().getProductaddd() == 0) {
                         Toast.makeText(Add_Product.this.getActivity(), "Product not Added", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(Add_Product.this.getActivity(), "Something wnt wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Add_Product.this.getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<ProductData> call, Throwable t) {
-
+                    Log.e("aaa", "onFailure: "+t.getLocalizedMessage());
+                    Toast.makeText(Add_Product.this.getActivity(), "Somethin Wrong="+t.getLocalizedMessage(), Toast.LENGTH_LONG);
                 }
             });
-        }
-        catch (NullPointerException exception)
-        {
-            Toast.makeText(getActivity(), "Please add any image to proceed", Toast.LENGTH_SHORT).show();
-        }
-        catch (ClassCastException exception)
-        {
-            Toast.makeText(getActivity(), "Please add any image to proceed", Toast.LENGTH_SHORT).show();
-        }
+
+
+
     }
 }
