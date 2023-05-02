@@ -89,11 +89,6 @@ public class HomePage_Activity extends AppCompatActivity {
 
 
 
-
-
-
-
-
     }
 
     private void replaceFragment(Fragment fragment) {

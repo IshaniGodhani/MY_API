@@ -56,6 +56,13 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                     .placeholder(R.drawable.animation)
                     .into(holder.imageView);
 
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+
     }
 
     @Override
@@ -65,7 +72,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 
     public class UserHolder extends RecyclerView.ViewHolder {
         TextView txtProName,txtProPrice,txtProDes;
-        ImageView imageView;
+        ImageView imageView,menu;
         public UserHolder(@NonNull View itemView)
         {
             super(itemView);
@@ -73,6 +80,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
             txtProPrice=itemView.findViewById(R.id.list_proprice);
             txtProDes=itemView.findViewById(R.id.list_prodes);
             imageView=itemView.findViewById(R.id.list_img);
+            menu=itemView.findViewById(R.id.list);
         }
     }
 }
