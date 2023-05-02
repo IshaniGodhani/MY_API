@@ -2,6 +2,7 @@ package com.example.my_api.Retrofit;
 
 import com.example.my_api.Models.LogingData;
 import com.example.my_api.Models.ProductData;
+import com.example.my_api.Models.Productdata_Show;
 import com.example.my_api.Models.RegisterData;
 import com.example.my_api.Models.ViewProductData;
 
@@ -28,4 +29,5 @@ public interface Retro_Interface
     @FormUrlEncoded
     @POST("viewData.php")
     Call<ViewProductData> viewProduct(@Field("userid")String userId);
+
 }

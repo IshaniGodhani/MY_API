@@ -3,9 +3,11 @@ package com.example.my_api.Adapters;
 import static java.security.AccessController.getContext;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,7 +61,23 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                PopupMenu popupMenu = new PopupMenu(context.getContext(),holder.menu);
+                popupMenu.getMenuInflater().inflate(R.menu.edit_menu,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getItemId()==R.id.item_update)
+                        {
+
+                        }
+                        else if(menuItem.getItemId()==R.id.item_delete)
+                        {
+
+                        }
+                            return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
