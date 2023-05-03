@@ -2,6 +2,7 @@ package com.example.my_api.Adapters;
 
 import static java.security.AccessController.getContext;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,17 +27,21 @@ import java.util.List;
 
 public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 {
-    View_Product context;
+    Context context;
     List<Productdata_Show> productDataList;
-    public MyAdatpter(View_Product context, List<Productdata_Show> productDataList) {
+    boolean all;
+    public MyAdatpter(Context context, List<Productdata_Show> productDataList,boolean all) {
         this.context=context;
         this.productDataList=productDataList;
+        this.all=all;
     }
+
+
 
     @NonNull
     @Override
     public MyAdatpter.UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context.getContext()).inflate(R.layout.fragment_view_product_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_view_product_item,parent,false);
         UserHolder holder = new UserHolder(view);
         return holder;
     }
@@ -49,37 +54,37 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
         holder.txtProPrice.setText(""+productDataList.get(position).getProPrice());
 
         String img="https://ishaniecommerce.000webhostapp.com/Mysite/"+productDataList.get(position).getProImage();
-//        Glide.with(context.getContext()).load(img)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true)
-//                .into(holder.imageView);
+
         Picasso.get()
                     .load(img)
                     .placeholder(R.drawable.animation)
                     .into(holder.imageView);
 
-        holder.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context.getContext(),holder.menu);
-                popupMenu.getMenuInflater().inflate(R.menu.edit_menu,popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        if(menuItem.getItemId()==R.id.item_update)
-                        {
+        if(!all)
+        {
+            holder.menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(context,holder.menu);
+                    popupMenu.getMenuInflater().inflate(R.menu.edit_menu,popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            if(menuItem.getItemId()==R.id.item_update)
+                            {
 
-                        }
-                        else if(menuItem.getItemId()==R.id.item_delete)
-                        {
+                            }
+                            else if(menuItem.getItemId()==R.id.item_delete)
+                            {
 
-                        }
+                            }
                             return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+        }
 
     }
 

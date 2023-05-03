@@ -30,4 +30,7 @@ public interface Retro_Interface
     @POST("viewData.php")
     Call<ViewProductData> viewProduct(@Field("userid")String userId);
 
+    @POST("viewallData.php")
+    Call<ViewProductData> viewallProduct();
+
 }

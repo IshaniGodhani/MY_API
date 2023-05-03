@@ -32,34 +32,38 @@ public class View_Product extends Fragment
 
     RecyclerView recyclerView;
     List<Productdata_Show> productDataList=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_view__product, container, false);
         recyclerView=view.findViewById(R.id.recyclerview);
-
-        Retro_Instance_Class.MyAPICalling().viewProduct(SplashScreen.preferences.getString("userid","")).enqueue(new Callback<ViewProductData>() {
-            @Override
-            public void onResponse(Call<ViewProductData> call, Response<ViewProductData> response) {
+       String userId=SplashScreen.preferences.getString("userid","");
+        if(!userId.contains(""))
+        {
+            Retro_Instance_Class.MyAPICalling().viewProduct(userId).enqueue(new Callback<ViewProductData>() {
+                @Override
+                public void onResponse(Call<ViewProductData> call, Response<ViewProductData> response) {
 //                Log.d("mmm", "onResponse: "+response.body().getResult());
 //                Log.d("mmm", "onResponse: "+response.body().getProductdata().get(0).getProName());
-                productDataList=response.body().getProductdata();
-                //productDataList.addAll()
-                Log.d("mmm", "onResponse: "+productDataList.size());
-                MyAdatpter myAdatpter=new MyAdatpter(View_Product.this,productDataList);
-                LinearLayoutManager manager=new LinearLayoutManager(getContext());
-                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(manager);
-                recyclerView.setAdapter(myAdatpter);
+                    productDataList=response.body().getProductdata();
+                    //productDataList.addAll()
+                    Log.d("mmm", "onResponse: "+productDataList.size());
+                    MyAdatpter myAdatpter=new MyAdatpter(getContext(),productDataList,false);
+                    LinearLayoutManager manager=new LinearLayoutManager(getContext());
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(myAdatpter);
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<ViewProductData> call, Throwable t) {
-                Log.e("mmm", "onResponse: "+t.getLocalizedMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<ViewProductData> call, Throwable t) {
+                    Log.e("mmm", "onResponse: "+t.getLocalizedMessage());
+                }
+            });
+        }
 
         return view;
 
