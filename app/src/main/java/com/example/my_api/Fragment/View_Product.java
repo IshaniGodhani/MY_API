@@ -40,8 +40,7 @@ public class View_Product extends Fragment
         View view=inflater.inflate(R.layout.fragment_view__product, container, false);
         recyclerView=view.findViewById(R.id.recyclerview);
        String userId=SplashScreen.preferences.getString("userid","");
-        if(!userId.contains(""))
-        {
+
             Retro_Instance_Class.MyAPICalling().viewProduct(userId).enqueue(new Callback<ViewProductData>() {
                 @Override
                 public void onResponse(Call<ViewProductData> call, Response<ViewProductData> response) {
@@ -63,7 +62,7 @@ public class View_Product extends Fragment
                     Log.e("mmm", "onResponse: "+t.getLocalizedMessage());
                 }
             });
-        }
+
 
         return view;
 
