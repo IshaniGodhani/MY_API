@@ -1,5 +1,6 @@
 package com.example.my_api.Retrofit;
 
+import com.example.my_api.Models.DeleteData;
 import com.example.my_api.Models.LogingData;
 import com.example.my_api.Models.ProductData;
 import com.example.my_api.Models.Productdata_Show;
@@ -31,7 +32,13 @@ public interface Retro_Interface
     @POST("viewData.php")
     Call<ViewProductData> viewProduct(@Field("userid")String userId);
 
-    @POST("viewallData.php")
+    @GET("viewallData.php")
     Call<ViewProductData> viewallProduct();
+
+    @FormUrlEncoded
+    @POST("deleteproduct.php")
+    Call<DeleteData> deleteProduct(@Field("id")String Id);
+
+
 
 }

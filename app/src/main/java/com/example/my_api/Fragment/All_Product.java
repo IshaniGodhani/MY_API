@@ -44,22 +44,18 @@ public class All_Product extends Fragment {
         Retro_Instance_Class.MyAPICalling().viewallProduct().enqueue(new Callback<ViewProductData>() {
             @Override
             public void onResponse(Call<ViewProductData> call, Response<ViewProductData> response) {
-                if (response.body().getConnection()==1)
-                {
-                    if (response.body().getResult()==1)
-                    {
-                        productDataList=response.body().getProductdata();
-                        adatpter=new MyAdatpter(getContext(),productDataList,true);
-                        LinearLayoutManager manager=new LinearLayoutManager(getContext());
+                if (response.body().getConnection()==1) {
+                    if (response.body().getResult() == 1) {
+                        Log.d("bbb", "onResponse: "+productDataList.size());
+                        productDataList = response.body().getProductdata();
+                        adatpter = new MyAdatpter(getContext(), productDataList, true);
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
                         manager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(manager);
                         recyclerView.setAdapter(adatpter);
+                    } else {
+                        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
-                    else if (response.body().getResult() == 2) {
-                        Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
 
             }

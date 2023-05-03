@@ -3,6 +3,7 @@ package com.example.my_api.Adapters;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -18,22 +20,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.animation.content.Content;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.my_api.Activity.SplashScreen;
 import com.example.my_api.Fragment.View_Product;
+import com.example.my_api.Models.DeleteData;
 import com.example.my_api.Models.Productdata_Show;
 import com.example.my_api.R;
+import com.example.my_api.Retrofit.Retro_Instance_Class;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 {
     Context context;
     List<Productdata_Show> productDataList;
+    SharedPreferences preferences;
+    String Id;
     boolean all;
     public MyAdatpter(Context context, List<Productdata_Show> productDataList,boolean all) {
         this.context=context;
         this.productDataList=productDataList;
         this.all=all;
+        preferences=SplashScreen.preferences;
     }
 
 
@@ -60,8 +72,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                     .placeholder(R.drawable.animation)
                     .into(holder.imageView);
 
-        if(!all)
-        {
+
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -76,7 +87,21 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                             }
                             else if(menuItem.getItemId()==R.id.item_delete)
                             {
+                                Id=SplashScreen.preferences.getString("id","");
+                                Retro_Instance_Class.MyAPICalling().deleteProduct(Id).enqueue(new Callback<DeleteData>() {
+                                    @Override
+                                    public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
+                                        if (response.body().getConnection() == 1 && response.body().getResult() == 1) {
+                                            Toast.makeText(context, "Delete product success", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<DeleteData> call, Throwable t) {
 
+                                    }
+                                });
                             }
                             return false;
                         }
@@ -84,9 +109,12 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                     popupMenu.show();
                 }
             });
-        }
+
+
+
 
     }
+
 
     @Override
     public int getItemCount() {

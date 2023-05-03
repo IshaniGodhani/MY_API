@@ -1,5 +1,7 @@
 package com.example.my_api.Fragment;
 
+import static com.example.my_api.Activity.SplashScreen.editor;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -45,10 +47,14 @@ public class View_Product extends Fragment
                 @Override
                 public void onResponse(Call<ViewProductData> call, Response<ViewProductData> response) {
 //                Log.d("mmm", "onResponse: "+response.body().getResult());
-//                Log.d("mmm", "onResponse: "+response.body().getProductdata().get(0).getProName());
+//               Log.d("mmm", "onResponse: "+response.body().getProductdata().get(0).getProName());
                     productDataList=response.body().getProductdata();
                     //productDataList.addAll()
-                    Log.d("mmm", "onResponse: "+productDataList.size());
+                  // Log.d("mmm", "onResponse: "+productDataList.size());
+
+                    editor.putString("id",response.body().getProductdata().get().getId());
+                    editor.commit();
+
                     MyAdatpter myAdatpter=new MyAdatpter(getContext(),productDataList,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getContext());
                     manager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -2,6 +2,8 @@ package com.example.my_api.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import static com.example.my_api.Activity.SplashScreen.editor;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
