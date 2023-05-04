@@ -2,21 +2,15 @@ package com.example.my_api.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
-import static com.example.my_api.Activity.SplashScreen.editor;
-
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +20,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.my_api.Activity.SplashScreen;
-import com.example.my_api.Models.ProductData;
 import com.example.my_api.Models.Productdata_Show;
+import com.example.my_api.Models.UpdateData;
 import com.example.my_api.R;
 import com.example.my_api.Retrofit.Retro_Instance_Class;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import java.util.List;
@@ -43,43 +35,41 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Add_Product extends Fragment {
-    EditText et1,et2,et3;
+public class Update_product extends Fragment {
+    EditText e1,e2,e3;
     ImageView imageView;
-    Button addpro;
-    String userid;
-    String proname,proprice,prodes,proimage;
+    Button update;
+    String Id,name,price,desc;
     String imagedata;
+    String imagename;
 
+    List<Productdata_Show> productDataList;
+    public Update_product(List<Productdata_Show> productDataList) {
+    this.productDataList=productDataList;
+    }
 
-
-
-    @SuppressLint("WrongThread")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_add_product, container, false);
-        et1=view.findViewById(R.id.pro_name);
-        et2=view.findViewById(R.id.pro_price);
-        et3=view.findViewById(R.id.pro_des);
-        imageView=view.findViewById(R.id.pro_Image);
-        addpro=view.findViewById(R.id.btnadd_pro);
+        View view=inflater.inflate(R.layout.fragment_update_product, container, false);
+        e1=view.findViewById(R.id.uppro_name);
+        e2=view.findViewById(R.id.uppro_price);
+        e3=view.findViewById(R.id.uppro_des);
+        imageView=view.findViewById(R.id.uppro_Image);
+        update=view.findViewById(R.id.btnupdate_pro);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CropImage.activity()
-                        .start(getContext(), Add_Product.this);
+                        .start(getContext(), Update_product.this);
             }
         });
-
-        addpro.setOnClickListener(new View.OnClickListener() {
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("aaa", "onClick: "+"Cliked");
-                addproduct();
-
+                updateproduct();
             }
         });
 
@@ -99,14 +89,13 @@ public class Add_Product extends Fragment {
             }
         }
     }
-
-    private void addproduct() {
-        userid = SplashScreen.preferences.getString("userid", "");
-        proname = et1.getText().toString();
-        proprice = et2.getText().toString();
-        prodes = et3.getText().toString();
-
-
+    private void updateproduct()
+    {
+        Id= SplashScreen.preferences.getString("id","");
+        imagename=SplashScreen.preferences.getString("imagename","");
+        name=e1.getText().toString();
+        price=e2.getText().toString();
+        desc=e3.getText().toString();
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
@@ -116,26 +105,24 @@ public class Add_Product extends Fragment {
             imagedata = Base64.getEncoder().encodeToString(imageInByte);
         }
 
-        Retro_Instance_Class.MyAPICalling().addproduct(userid,proname, proprice, prodes, imagedata).enqueue(new Callback<ProductData>() {
+        Retro_Instance_Class.MyAPICalling().updateProduct(Id,name,price,desc,imagedata,imagename).enqueue(new Callback<UpdateData>() {
             @Override
-            public void onResponse(Call<ProductData> call, Response<ProductData> response) {
-                Log.d("aaa", "onResponse: "+response.body());
-                if (response.body().getConnection() == 1 && response.body().getProductaddd() == 1) {
+            public void onResponse(Call<UpdateData> call, Response<UpdateData> response) {
+                if (response.body().getConnection() == 1 && response.body().getResult() == 1) {
 
-                    Toast.makeText(Add_Product.this.getActivity(), "Product Add Successfully", Toast.LENGTH_SHORT).show();
-                } else if (response.body().getProductaddd() == 0) {
-                    Toast.makeText(Add_Product.this.getActivity(), "Product not Added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Update_product.this.getActivity(), "Product update Successfully", Toast.LENGTH_SHORT).show();
+                } else if (response.body().getResult() == 0) {
+                    Toast.makeText(Update_product.this.getActivity(), "Product not update", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Add_Product.this.getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Update_product.this.getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<ProductData> call, Throwable t) {
-                Log.e("aaa", "onFailure: "+t.getLocalizedMessage());
-                Toast.makeText(Add_Product.this.getActivity(), "Something Wrong="+t.getLocalizedMessage(), Toast.LENGTH_LONG);
+            public void onFailure(Call<UpdateData> call, Throwable t) {
+
             }
         });
+
     }
 }

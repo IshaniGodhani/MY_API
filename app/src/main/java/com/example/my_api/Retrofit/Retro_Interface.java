@@ -5,6 +5,7 @@ import com.example.my_api.Models.LogingData;
 import com.example.my_api.Models.ProductData;
 import com.example.my_api.Models.Productdata_Show;
 import com.example.my_api.Models.RegisterData;
+import com.example.my_api.Models.UpdateData;
 import com.example.my_api.Models.ViewProductData;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public interface Retro_Interface
     @FormUrlEncoded
     @POST("deleteproduct.php")
     Call<DeleteData> deleteProduct(@Field("id")String Id);
+
+    @FormUrlEncoded
+    @POST("updateproduct.php")
+    Call<UpdateData> updateProduct(@Field("id") String id,@Field("name") String name,@Field("price") String price,@Field("description") String description,@Field("imagedata") String imagedata,@Field("imagename") String imagename);
+
 
 
 

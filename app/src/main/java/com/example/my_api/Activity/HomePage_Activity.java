@@ -91,7 +91,7 @@ public class HomePage_Activity extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id.frame,fragment);
