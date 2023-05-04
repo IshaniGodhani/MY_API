@@ -92,7 +92,15 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                                     @Override
                                     public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
                                         if (response.body().getConnection() == 1 && response.body().getResult() == 1) {
-                                            Toast.makeText(context, "Delete product success", Toast.LENGTH_SHORT).show();
+                                            for (int i=0;i<productDataList.size();i++)
+                                            {
+                                                if(productDataList.get(i).getId().equals(Id))
+                                                {
+                                                    productDataList.remove(i);
+                                                    Toast.makeText(context, "Delete product success", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
                                         } else {
                                             Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                                         }

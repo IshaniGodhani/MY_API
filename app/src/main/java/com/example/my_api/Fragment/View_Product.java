@@ -51,9 +51,12 @@ public class View_Product extends Fragment
                     productDataList=response.body().getProductdata();
                     //productDataList.addAll()
                   // Log.d("mmm", "onResponse: "+productDataList.size());
+                    for (int i=0;i< productDataList.size();i++)
+                    {
+                        editor.putString("id",response.body().getProductdata().get(i).getId());
+                        editor.commit();
+                    }
 
-                    editor.putString("id",response.body().getProductdata().get().getId());
-                    editor.commit();
 
                     MyAdatpter myAdatpter=new MyAdatpter(getContext(),productDataList,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getContext());
