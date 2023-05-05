@@ -52,10 +52,7 @@ public class View_Product extends Fragment
                     //productDataList.addAll()
                   // Log.d("mmm", "onResponse: "+productDataList.size());
 
-
-
-
-                    MyAdatpter myAdatpter=new MyAdatpter(getContext(),productDataList,false);
+                    MyAdatpter myAdatpter=new MyAdatpter(getActivity(),productDataList,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getContext());
                     manager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(manager);

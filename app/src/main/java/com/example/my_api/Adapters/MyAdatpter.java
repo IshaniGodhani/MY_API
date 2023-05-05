@@ -42,12 +42,12 @@ import retrofit2.Response;
 
 public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 {
-    Context context;
+    FragmentActivity context;
     List<Productdata_Show> productDataList;
     SharedPreferences preferences;
     String Id;
     boolean all;
-    public MyAdatpter(Context context, List<Productdata_Show> productDataList,boolean all) {
+    public MyAdatpter(FragmentActivity context, List<Productdata_Show> productDataList,boolean all) {
         this.context=context;
         this.productDataList=productDataList;
         this.all=all;
@@ -124,7 +124,13 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                     popupMenu.show();
                 }
 
+                private void setfragment(Fragment fragment) {
+                    FragmentManager manager=context.getSupportFragmentManager();
+                    FragmentTransaction transaction= manager.beginTransaction();
+                    transaction.replace(R.id.frame,fragment);
+                    transaction.commit();
 
+                }
 
 
             });
@@ -132,10 +138,6 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 
 
     }
-
-
-
-
 
 
 

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,7 @@ public class Update_product extends Fragment {
         name=e1.getText().toString();
         price=e2.getText().toString();
         desc=e3.getText().toString();
+
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
@@ -120,7 +122,8 @@ public class Update_product extends Fragment {
 
             @Override
             public void onFailure(Call<UpdateData> call, Throwable t) {
-
+                Log.e("aaa", "onFailure: "+t.getLocalizedMessage());
+                Toast.makeText(Update_product.this.getActivity(), "Something Wrong="+t.getLocalizedMessage(),Toast.LENGTH_LONG);
             }
         });
 

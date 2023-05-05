@@ -1,8 +1,8 @@
 package com.example.my_api.Models;
 
 public class UpdateData {
-    private  int connection;
-    private int result;
+    private  Integer connection;
+    private Integer result;
     private String id;
     private String name;
     private String price;

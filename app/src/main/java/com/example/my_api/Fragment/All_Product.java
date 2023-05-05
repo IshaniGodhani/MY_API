@@ -48,7 +48,7 @@ public class All_Product extends Fragment {
                     if (response.body().getResult() == 1) {
                         Log.d("bbb", "onResponse: "+productDataList.size());
                         productDataList = response.body().getProductdata();
-                        adatpter = new MyAdatpter(getContext(), productDataList, true);
+                        adatpter = new MyAdatpter(getActivity(), productDataList, true);
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
                         manager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(manager);
