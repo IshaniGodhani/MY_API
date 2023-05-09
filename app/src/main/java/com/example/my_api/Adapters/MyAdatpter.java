@@ -2,6 +2,7 @@ package com.example.my_api.Adapters;
 
 import static java.security.AccessController.getContext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,7 +66,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdatpter.UserHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyAdatpter.UserHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.txtProName.setText(""+productDataList.get(position).getProName());
         holder.txtProDes.setText(""+productDataList.get(position).getProDes());
@@ -89,7 +90,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             if(menuItem.getItemId()==R.id.item_update)
                             {
-                                setfragment(new Update_product(productDataList));
+                                setfragment(new Update_product(productDataList,position));
                             }
                             else if(menuItem.getItemId()==R.id.item_delete)
                             {

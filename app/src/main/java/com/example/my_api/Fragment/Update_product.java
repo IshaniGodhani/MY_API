@@ -2,6 +2,7 @@ package com.example.my_api.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,10 +22,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.my_api.Activity.SplashScreen;
+import com.example.my_api.Models.DeleteData;
 import com.example.my_api.Models.Productdata_Show;
-import com.example.my_api.Models.UpdateData;
 import com.example.my_api.R;
 import com.example.my_api.Retrofit.Retro_Instance_Class;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -43,12 +45,15 @@ public class Update_product extends Fragment {
     String Id,name,price,desc;
     String imagedata;
     String imagename;
+    int position;
 
     List<Productdata_Show> productDataList;
-    public Update_product(List<Productdata_Show> productDataList) {
+    public Update_product(List<Productdata_Show> productDataList, int position) {
     this.productDataList=productDataList;
+    this.position=position;
     }
 
+    @SuppressLint("WrongThread")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +65,27 @@ public class Update_product extends Fragment {
         imageView=view.findViewById(R.id.uppro_Image);
         update=view.findViewById(R.id.btnupdate_pro);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+
+        Id= productDataList.get(position).getId();
+        name=productDataList.get(position).getProName();
+        price=productDataList.get(position).getProPrice();
+        desc=productDataList.get(position).getProDes();
+        imagename=productDataList.get(position).getProImage();
+
+        //"https://ishaniecommerce.000webhostapp.com/Mysite/"+
+
+        e1.setText(""+name);
+        e2.setText(""+price);
+        e3.setText(""+desc);
+
+        String img="https://ishaniecommerce.000webhostapp.com/Mysite/"+imagename;
+
+        Picasso.get()
+                .load(img)
+                .placeholder(R.drawable.animation)
+                .into(imageView);
+
+               imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CropImage.activity()
@@ -92,11 +117,11 @@ public class Update_product extends Fragment {
     }
     private void updateproduct()
     {
-        Id= SplashScreen.preferences.getString("id","");
-        imagename=SplashScreen.preferences.getString("imagename","");
+
         name=e1.getText().toString();
         price=e2.getText().toString();
         desc=e3.getText().toString();
+
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -106,10 +131,9 @@ public class Update_product extends Fragment {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             imagedata = Base64.getEncoder().encodeToString(imageInByte);
         }
-
-        Retro_Instance_Class.MyAPICalling().updateProduct(Id,name,price,desc,imagedata,imagename).enqueue(new Callback<UpdateData>() {
+        Retro_Instance_Class.MyAPICalling().updateProduct(Id,name,price,desc,imagedata,imagename).enqueue(new Callback<DeleteData>() {
             @Override
-            public void onResponse(Call<UpdateData> call, Response<UpdateData> response) {
+            public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
                 if (response.body().getConnection() == 1 && response.body().getResult() == 1) {
 
                     Toast.makeText(Update_product.this.getActivity(), "Product update Successfully", Toast.LENGTH_SHORT).show();
@@ -121,8 +145,8 @@ public class Update_product extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<UpdateData> call, Throwable t) {
-                Log.e("aaa", "onFailure: "+t.getLocalizedMessage());
+            public void onFailure(Call<DeleteData> call, Throwable t) {
+                Log.e("ddd", "onFailure: "+t.getLocalizedMessage());
                 Toast.makeText(Update_product.this.getActivity(), "Something Wrong="+t.getLocalizedMessage(),Toast.LENGTH_LONG);
             }
         });
