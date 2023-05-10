@@ -26,6 +26,9 @@
             android:name=".Activity.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SplashScreen"
             android:exported="true">
             <intent-filter>

@@ -2,6 +2,7 @@ package com.example.my_api.Fragment;
 
 import static com.example.my_api.Activity.SplashScreen.editor;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.my_api.Activity.PaymentActivity;
 import com.example.my_api.Activity.SplashScreen;
 import com.example.my_api.Adapters.MyAdatpter;
 import com.example.my_api.Models.Productdata_Show;
@@ -57,6 +60,23 @@ public class View_Product extends Fragment
                     manager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(myAdatpter);
+//                    recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+//                        @Override
+//                        public boolean onLongClick(View view) {
+//                            Toast.makeText(getContext(), "LongClicked", Toast.LENGTH_SHORT).show();
+//                            Intent intent=new Intent(getContext(), PaymentActivity.class);
+//                            getContext().startActivity(intent);
+//                            return false;
+//                        }
+//                    });
+//                    recyclerView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Toast.makeText(getContext(), "LongClicked", Toast.LENGTH_SHORT).show();
+//                            Intent intent=new Intent(getContext(), PaymentActivity.class);
+//                            getContext().startActivity(intent);
+//                        }
+//                    });
 
                 }
 

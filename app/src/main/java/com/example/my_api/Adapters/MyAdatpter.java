@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.animation.content.Content;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.my_api.Activity.PaymentActivity;
 import com.example.my_api.Activity.SplashScreen;
 import com.example.my_api.Fragment.Add_Product;
 import com.example.my_api.Fragment.Update_product;
@@ -123,6 +124,7 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
 
                     });
                     popupMenu.show();
+
                 }
 
                 private void setfragment(Fragment fragment) {
@@ -159,6 +161,18 @@ public class MyAdatpter extends RecyclerView.Adapter<MyAdatpter.UserHolder>
             txtProDes=itemView.findViewById(R.id.list_prodes);
             imageView=itemView.findViewById(R.id.list_img);
             menu=itemView.findViewById(R.id.list);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "LongClicked", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(context, PaymentActivity.class);
+                    intent.putExtra("name",productDataList.get(getAdapterPosition()).getProName());
+                    intent.putExtra("price",productDataList.get(getAdapterPosition()).getProPrice());
+                    intent.putExtra("image",productDataList.get(getAdapterPosition()).getProImage());
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 
