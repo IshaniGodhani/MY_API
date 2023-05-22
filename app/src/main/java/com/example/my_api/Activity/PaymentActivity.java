@@ -33,6 +33,7 @@ public class PaymentActivity extends Activity implements PaymentResultWithDataLi
     private static final String TAG = PaymentActivity.class.getSimpleName();
     String name,price,image;
     ImageView imageView;
+    int temp;
     TextView txtname,txtprice;
     private AlertDialog.Builder alertDialogBuilder;
 
@@ -50,6 +51,8 @@ public class PaymentActivity extends Activity implements PaymentResultWithDataLi
         name=getIntent().getStringExtra("name");
         price=getIntent().getStringExtra("price");
         image=getIntent().getStringExtra("image");
+
+        temp= Integer.parseInt(price)*100;
 
         txtname.setText(name);
         txtprice.setText(price);
@@ -131,7 +134,7 @@ public class PaymentActivity extends Activity implements PaymentResultWithDataLi
                 //You can omit the image option to fetch the image from dashboard
                 options.put("image","https://ishaniecommerce.000webhostapp.com/Mysite/"+image);
                 options.put("currency", "INR");
-                options.put("amount",price);
+                options.put("amount",temp);
 
                 JSONObject preFill = new JSONObject();
                 preFill.put("email", "test@razorpay.com");
